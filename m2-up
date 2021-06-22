@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "Running Composer Install"
+sudo docker exec -i magento2.4_apache composer install
+
+echo "Running Magento Config Import"
+sudo docker exec -i magento2.4_apache bin/magento app:config:import
+
+echo "Running Magento Setup Upgrade"
+sudo docker exec -i magento2.4_apache bin/magento s:up
+
+echo "Running Magento Clear Cache"
+sudo docker exec -i magento2.4_apache bin/magento c:f
+
+echo "Clean up unnecessary files"
+sudo rm -rf ./magento/generated/code/*
+sudo rm -rf ./magento/pub/static/*
+echo "Setup Permissions"
+sudo chmod -R 777 ./magento/pub ./magento/generated ./magento/var
+

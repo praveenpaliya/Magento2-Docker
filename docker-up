@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+echo "set Memory for Elastic Search"
+sudo sysctl -w vm.max_map_count=262144
+
+echo "Start Docker container"
+docker-compose up -d
+
+echo "####### Website URLs #################"
+echo "Magento: https://magento2.local"
+echo "PhpMyAdmin http://localhost:8080/"
+echo "Mailhog http://localhost:8025/"
+echo "###### Setup END ####################"
+

@@ -1,0 +1,117 @@
+version: '2'
+services:
+  apache:
+    build:
+      context: .
+      dockerfile: build/apache/php-7.4/Dockerfile
+    container_name: magento2.4_apache
+    ports:
+      - "80:80"
+      - "443:443"
+      - "9001:9000" # xdebug
+    volumes:
+      - ./Magento/site/public:/var/www/html
+      - ~/.composer/cache:/var/www/.composer/cache
+      - ~/.npm:/var/www/.npm
+    environment:
+      XDEBUG_CONFIG: "remote_host=localhost"
+      PHP_IDE_CONFIG: "serverName=Docker"
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - magento-network
+
+  db:
+    image: mariadb:10.4.13
+    container_name: magento2.4_db
+    ports:
+     - 3300:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=magento
+      - MYSQL_USER=magento
+      - MYSQL_PASSWORD=magento
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./backups:/var/tmp/backups
+    networks:
+      - magento-network
+
+  redis:
+    image: redis
+    container_name: magento2.4_redis
+    ports:
+     - 6379
+    networks:
+      - magento-network
+
+  redis-session:
+    image: redis
+    container_name: magento2.4_redis-session
+    ports:
+     - 6379
+    networks:
+      - magento-network
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: magento2.4_mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - magento-network
+
+  elasticsearch:
+    build:
+      context: .
+      dockerfile: build/elasticsearch/Dockerfile
+    container_name: magento2.4_elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - node.name=node-1
+      - cluster.initial_master_nodes=node-1
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./elasticsearchdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - magento-network
+      
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: magento2.4_phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+      - magento-network
+
+  rabbitmq:
+    image: rabbitmq:3.7-management-alpine
+    container_name: magento2.4_rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - ./rabbitmqdata:/var/lib/rabbitmq
+    networks:
+      - magento-network
+      
+networks:
+  magento-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
