@@ -31,10 +31,9 @@
 **Step#5:**
 => edit /etc/hosts file
 => add code like below:
-    127.0.0.1  magento2.local
+    `127.0.0.1  magento2.local`
 
 **Step#5:**
-Urls would be accessible as below:
 **Magento2 Local URL:** 
 https://magento2.local
 
