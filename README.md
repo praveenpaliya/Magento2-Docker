@@ -19,14 +19,14 @@
 => Download Magento source code in "magento" folder.
 
 **Step#2:**
-=> Run bash script like sudo ./docker-up.sh
+=> Run bash script like sudo ./docker-up
 
 **Step#3:**
 => Install Db
 => docker exec -i magento2.4_db mysql -u magento -pmagento magento < dbfile.sql
 
 **Step#4:**
-=> Run bash script like sudo ./m2-up.sh
+=> Run bash script like sudo ./m2-up
 
 **Step#5:**
 => edit /etc/hosts file
