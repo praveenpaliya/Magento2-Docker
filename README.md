@@ -1,4 +1,4 @@
-#  Magento 2 Docker to Development
+#  Magento 2.4 Docker to Development
 
 ![Magento 2](https://raw.githubusercontent.com/praveenpaliya/assets/main/magento.png)
 
@@ -11,7 +11,7 @@
 **For Windows Supporting (WSL)**
 => Install Ubuntu on WSL
    https://ubuntu.com/tutorials/ubuntu-on-windows#1-overview
-   ![Ubuntu on Windows] (https://raw.githubusercontent.com/praveenpaliya/assets/main/ubuntu_wsl.png)
+   ![Ubuntu on Windows WSL](https://raw.githubusercontent.com/praveenpaliya/assets/main/ubuntu_wsl.png)
 => Install docker on WSL Ubuntu
 => git clone the project
 
