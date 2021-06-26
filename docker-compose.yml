@@ -10,7 +10,7 @@ services:
       - "443:443"
       - "9001:9000" # xdebug
     volumes:
-      - ./Magento/site/public:/var/www/html
+      - ./magento:/var/www/html
       - ~/.composer/cache:/var/www/.composer/cache
       - ~/.npm:/var/www/.npm
     environment:
